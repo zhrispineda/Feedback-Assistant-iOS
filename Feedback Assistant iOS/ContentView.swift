@@ -2,8 +2,6 @@
 //  ContentView.swift
 //  Feedback Assistant iOS
 //
-//  Created by Chris on 11/17/24.
-//
 
 import SwiftUI
 
