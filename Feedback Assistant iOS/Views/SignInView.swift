@@ -7,6 +7,8 @@ import SwiftUI
 
 struct SignInView: View {
     // Variables
+    @Environment(\.dismiss) private var dismiss
+    @Binding var signedIn: Bool
     @State private var username = String()
     
     var body: some View {
@@ -58,7 +60,10 @@ struct SignInView: View {
         .buttonStyle(.plain)
         
         // Continue button
-        Button {} label: {
+        Button {
+            dismiss()
+            signedIn = true
+        } label: {
             Text("SIGN_IN_BUTTON_CONTINUE", tableName: "AppleAccountUI")
                 .fontWeight(.semibold)
                 .font(.subheadline)
@@ -69,9 +74,10 @@ struct SignInView: View {
         }
         .frame(height: 50)
         .padding(.horizontal, 30)
+        .disabled(username.count < 1)
     }
 }
 
 #Preview {
-    SignInView()
+    SignInView(signedIn: .constant(false))
 }
