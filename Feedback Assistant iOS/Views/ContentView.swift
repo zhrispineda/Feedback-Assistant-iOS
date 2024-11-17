@@ -26,7 +26,7 @@ struct ContentView: View {
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.secondary)
                         }
-                        .frame(width: 500)
+                        .frame(width: 480)
                     }
                 }
             }

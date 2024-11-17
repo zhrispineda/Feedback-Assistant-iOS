@@ -10,6 +10,9 @@
     "%lld" : {
 
     },
+    "• " : {
+
+    },
     "ACCEPT" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -13752,6 +13755,9 @@
         }
       }
     },
+    "Done" : {
+
+    },
     "DONE" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -20241,9 +20247,6 @@
           }
         }
       }
-    },
-    "Feedback" : {
-
     },
     "Feedback Assistant" : {
       "extractionState" : "manual",
@@ -57075,6 +57078,9 @@
           }
         }
       }
+    },
+    "WELCOME_LEARN_MORE" : {
+
     },
     "YES" : {
       "extractionState" : "manual",

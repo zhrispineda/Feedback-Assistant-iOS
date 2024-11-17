@@ -15,55 +15,53 @@ struct FeedbackView: View {
         ZStack {
             Color(colorScheme == .light ? Color(UIColor.systemGray6) : Color(UIColor.systemBackground))
                 .ignoresSafeArea()
-            GeometryReader { _ in
-                ScrollView {
-                    // 2 by 2 grid section
-                    LazyVGrid(columns: [.init(), .init()]) {
-                        Group {
-                            NavigationLink(destination: EmptyView()) {
-                                GridCell(imageName: "clock.circle.fill", count: 0, title: NSLocalizedString("RECENT_ACTIVITY_FILTER", tableName: "CommonStrings", comment: String()))
-                            }
-                            
-                            NavigationLink(destination: EmptyView()) {
-                                GridCell(imageName: "exclamationmark.bubble.circle.fill", count: 0, title: NSLocalizedString("REQUESTS_FILTER", tableName: "CommonStrings", comment: String()))
-                            }
-                            
-                            NavigationLink(destination: EmptyView()) {
-                                GridCell(imageName: "tray.circle.fill", count: 0, title: NSLocalizedString("ALL_FILTER", tableName: "CommonStrings", comment: String()))
-                            }
-                            
-                            NavigationLink(destination: EmptyView()) {
-                                GridCell(imageName: "newspaper.circle.fill", count: 0, title: NSLocalizedString("ANNOUNCEMENTS_FILTER", tableName: "CommonStrings", comment: String()))
-                            }
+            ScrollView {
+                // 2 by 2 grid section
+                LazyVGrid(columns: [.init(), .init()]) {
+                    Group {
+                        NavigationLink(destination: EmptyView()) {
+                            GridCell(imageName: "clock.circle.fill", count: 0, title: NSLocalizedString("RECENT_ACTIVITY_FILTER", tableName: "CommonStrings", comment: String()))
                         }
-                        .buttonStyle(CustomButtonStyle())
                         
+                        NavigationLink(destination: EmptyView()) {
+                            GridCell(imageName: "exclamationmark.bubble.circle.fill", count: 0, title: NSLocalizedString("REQUESTS_FILTER", tableName: "CommonStrings", comment: String()))
+                        }
+                        
+                        NavigationLink(destination: EmptyView()) {
+                            GridCell(imageName: "tray.circle.fill", count: 0, title: NSLocalizedString("ALL_FILTER", tableName: "CommonStrings", comment: String()))
+                        }
+                        
+                        NavigationLink(destination: EmptyView()) {
+                            GridCell(imageName: "newspaper.circle.fill", count: 0, title: NSLocalizedString("ANNOUNCEMENTS_FILTER", tableName: "CommonStrings", comment: String()))
+                        }
                     }
-                    .padding()
+                    .buttonStyle(CustomButtonStyle())
                     
-                    // List
-                    List {
-                        NavigationLink(destination: EmptyView()) {
-                            Label("COMBINED_INBOX", systemImage: "tray")
-                        }
-                        
-                        NavigationLink(destination: EmptyView()) {
-                            Label("DRAFTS_INBOX", systemImage: "doc")
-                        }
-                        
-                        NavigationLink(destination: EmptyView()) {
-                            Label("SUBMITTED_INBOX", systemImage: "paperplane")
-                        }
-                        
-                        Button {} label: {
-                            Label("CREATE_FEEDBACK", systemImage: "bubble.and.pencil")
-                        }
-                    }
-                    .frame(height: 220)
-                    .padding(.top, -20)
-                    .padding(.horizontal, -5)
-                    .scrollDisabled(true)
                 }
+                .padding()
+                
+                // List
+                List {
+                    NavigationLink(destination: EmptyView()) {
+                        Label("COMBINED_INBOX", systemImage: "tray")
+                    }
+                    
+                    NavigationLink(destination: EmptyView()) {
+                        Label("DRAFTS_INBOX", systemImage: "doc")
+                    }
+                    
+                    NavigationLink(destination: EmptyView()) {
+                        Label("SUBMITTED_INBOX", systemImage: "paperplane")
+                    }
+                    
+                    Button {} label: {
+                        Label("CREATE_FEEDBACK", systemImage: "bubble.and.pencil")
+                    }
+                }
+                .frame(height: 220)
+                .padding(.top, -20)
+                .padding(.horizontal, -5)
+                .scrollDisabled(true)
             }
             .navigationTitle(NSLocalizedString("FEEDBACK", tableName: "CommonStrings", comment: String()))
             .refreshable {

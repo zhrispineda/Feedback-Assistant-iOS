@@ -10,6 +10,7 @@ struct SignInView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var signedIn: Bool
     @State private var username = String()
+    @State private var showingPrivacySheet = false
     
     var body: some View {
         Image("RoundedIcon") // Rounded Icon
@@ -39,7 +40,9 @@ struct SignInView: View {
         .padding(.bottom, UIDevice.current.model == "iPhone" ? 300 : 150)
         
         // Privacy link button
-        Button {} label: {
+        Button {
+            showingPrivacySheet.toggle()
+        } label: {
             VStack {
                 Image(_internalSystemName: "privacy.handshake")
                     .resizable()
@@ -58,6 +61,9 @@ struct SignInView: View {
             .padding(.horizontal, 30)
         }
         .buttonStyle(.plain)
+        .sheet(isPresented: $showingPrivacySheet) {
+            OnBoardingView(table: "OBAppleID")
+        }
         
         // Continue button
         Button {
