@@ -21,6 +21,11 @@
 			path = "Feedback Assistant iOS";
 			sourceTree = "<group>";
 		};
+		8371CC5F2CEAA67400A3C33B /* Assets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Assets;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +42,7 @@
 		830BA09F2CEA62D2003A2124 = {
 			isa = PBXGroup;
 			children = (
+				8371CC5F2CEAA67400A3C33B /* Assets */,
 				83D35FAC2CEA80F600A6A3B8 /* README.md */,
 				830BA0AA2CEA62D2003A2124 /* Feedback Assistant iOS */,
 				830BA0A92CEA62D2003A2124 /* Products */,
@@ -68,6 +74,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				830BA0AA2CEA62D2003A2124 /* Feedback Assistant iOS */,
+				8371CC5F2CEAA67400A3C33B /* Assets */,
 			);
 			name = "Feedback Assistant iOS";
 			packageProductDependencies = (

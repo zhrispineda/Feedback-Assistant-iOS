@@ -4764,9 +4764,6 @@
         }
       }
     },
-    "APPLEID_EXPLANATION" : {
-
-    },
     "ATTACH_FILES" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -10772,12 +10769,6 @@
           }
         }
       }
-    },
-    "CREATE_ICLOUD_MAIL_ACCOUNT_EXPLANATION_FOOTER_REBRAND" : {
-
-    },
-    "CREATE_ICLOUD_MAIL_ACCOUNT_FOOTER_LEARN_MORE_BUTTON" : {
-
     },
     "DECLINE" : {
       "extractionState" : "manual",
@@ -23003,6 +22994,9 @@
         }
       }
     },
+    "Filtered by:" : {
+
+    },
     "FOLLOWUP_DATE_FORMAT" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -26510,6 +26504,12 @@
           }
         }
       }
+    },
+    "FOOTER_TEXT_IPAD" : {
+
+    },
+    "FOOTER_TEXT_IPHONE" : {
+
     },
     "FOOTER_TEXT_REMAINING" : {
       "extractionState" : "manual",
@@ -36300,6 +36300,9 @@
         }
       }
     },
+    "Open" : {
+
+    },
     "OTHER_DEVICES" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -42312,6 +42315,9 @@
         }
       }
     },
+    "Recent Activity" : {
+
+    },
     "RESET_WARNINGS" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -43818,9 +43824,6 @@
         }
       }
     },
-    "SIGN_IN_BUTTON_CONTINUE" : {
-
-    },
     "SIGN_OUT" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -44573,6 +44576,12 @@
           }
         }
       }
+    },
+    "SPLASH_SUMMARY" : {
+
+    },
+    "SPLASH_TITLE" : {
+
     },
     "SUBMISSION_PII_MESSAGE" : {
       "extractionState" : "manual",
@@ -57078,9 +57087,6 @@
           }
         }
       }
-    },
-    "WELCOME_LEARN_MORE" : {
-
     },
     "YES" : {
       "extractionState" : "manual",

@@ -8,7 +8,6 @@ import SwiftUI
 struct FeedbackView: View {
     // Variables
     @Environment(\.colorScheme) var colorScheme
-    @State private var timer: Timer? = nil
     @State private var refreshing = false
     
     var body: some View {
@@ -19,8 +18,8 @@ struct FeedbackView: View {
                 // 2 by 2 grid section
                 LazyVGrid(columns: [.init(), .init()]) {
                     Group {
-                        NavigationLink(destination: EmptyView()) {
-                            GridCell(imageName: "clock.circle.fill", count: 0, title: NSLocalizedString("RECENT_ACTIVITY_FILTER", tableName: "CommonStrings", comment: String()))
+                        NavigationLink(destination: RecentActivityView()) {
+                            GridCell(imageName: "clock.circle.fill", count: 0, title: "RECENT_ACTIVITY_FILTER".localize(table: "CommonStrings"))
                         }
                         
                         NavigationLink(destination: EmptyView()) {
@@ -63,7 +62,7 @@ struct FeedbackView: View {
                 .padding(.horizontal, -5)
                 .scrollDisabled(true)
             }
-            .navigationTitle(NSLocalizedString("FEEDBACK", tableName: "CommonStrings", comment: String()))
+            .navigationTitle("FEEDBACK".localize(table: "CommonStrings"))
             .refreshable {
                 refreshData()
             }

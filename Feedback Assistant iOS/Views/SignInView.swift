@@ -28,7 +28,7 @@ struct SignInView: View {
             .padding(.vertical)
             .padding(.leading, 15)
             .frame(height: 48)
-            .background(Color(UIColor.systemGray6))
+            .background(UIDevice.current.model == "iPad" ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
             .cornerRadius(10)
             .padding([.horizontal, .top], 30)
         // Forgot password? button

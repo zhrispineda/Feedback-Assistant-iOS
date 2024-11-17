@@ -16,17 +16,20 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             if signedIn {
-                HStack(spacing: 0.25) {
+                Color.primary
+                    .ignoresSafeArea()
+                    .opacity(0.3)
+                HStack(spacing: 0.5) {
                     NavigationStack {
-                       FeedbackView()
+                        FeedbackView()
                     }
+                    .frame(width: UIDevice.current.model == "iPad" ? 360 : nil)
                     if UIDevice.current.model == "iPad" {
                         NavigationStack {
                             Text("NO_FEEDBACK")
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.secondary)
                         }
-                        .frame(width: 480)
                     }
                 }
             }

@@ -4,6 +4,10 @@ A **work-in-progress** SwiftUI recreation of the iOS & iPadOS Feedback Assistant
 ## Information
 - This personal project is a recreation of Apple's Feedback Assistant app for iOS and iPadOS.
 
+## Examples
+![An image displaying a preview of the the Feedback Assistant-like project on a Dynamic Island iPhone with its theme set to dark mode.](Assets/Dark.png)
+![An image displaying a preview of the Feedback Assistant-like project on a Dynamic Island iPhone with its theme set to light mode.](Assets/Light.png)
+
 ## Usage
 Open the project in Xcode 16 and run with either a Simulator instance or a physical device running iOS 18.1 or newer with Developer Mode enabled as a destination.
 
