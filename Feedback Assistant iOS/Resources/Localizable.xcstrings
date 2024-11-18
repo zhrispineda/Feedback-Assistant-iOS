@@ -22994,7 +22994,7 @@
         }
       }
     },
-    "Filtered by:" : {
+    "FILTERED_BY_PROMPT" : {
 
     },
     "FOLLOWUP_DATE_FORMAT" : {
@@ -36300,9 +36300,6 @@
         }
       }
     },
-    "Open" : {
-
-    },
     "OTHER_DEVICES" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -42314,9 +42311,6 @@
           }
         }
       }
-    },
-    "Recent Activity" : {
-
     },
     "RESET_WARNINGS" : {
       "extractionState" : "manual",

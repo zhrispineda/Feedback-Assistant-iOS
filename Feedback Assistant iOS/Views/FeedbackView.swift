@@ -9,6 +9,7 @@ struct FeedbackView: View {
     // Variables
     @Environment(\.colorScheme) var colorScheme
     @State private var refreshing = false
+    let table = "CommonStrings"
     
     var body: some View {
         ZStack {
@@ -19,19 +20,19 @@ struct FeedbackView: View {
                 LazyVGrid(columns: [.init(), .init()]) {
                     Group {
                         NavigationLink(destination: RecentActivityView()) {
-                            GridCell(imageName: "clock.circle.fill", count: 0, title: "RECENT_ACTIVITY_FILTER".localize(table: "CommonStrings"))
+                            GridCell(imageName: "clock.circle.fill", count: 0, title: "RECENT_ACTIVITY_FILTER".localize(table: table))
                         }
                         
-                        NavigationLink(destination: EmptyView()) {
-                            GridCell(imageName: "exclamationmark.bubble.circle.fill", count: 0, title: NSLocalizedString("REQUESTS_FILTER", tableName: "CommonStrings", comment: String()))
+                        NavigationLink(destination: RequestsView()) {
+                            GridCell(imageName: "exclamationmark.bubble.circle.fill", count: 0, title: "REQUESTS_FILTER".localize(table: table))
                         }
                         
-                        NavigationLink(destination: EmptyView()) {
-                            GridCell(imageName: "tray.circle.fill", count: 0, title: NSLocalizedString("ALL_FILTER", tableName: "CommonStrings", comment: String()))
+                        NavigationLink(destination: AllView()) {
+                            GridCell(imageName: "tray.circle.fill", count: 0, title: "ALL_FILTER".localize(table: table))
                         }
                         
-                        NavigationLink(destination: EmptyView()) {
-                            GridCell(imageName: "newspaper.circle.fill", count: 0, title: NSLocalizedString("ANNOUNCEMENTS_FILTER", tableName: "CommonStrings", comment: String()))
+                        NavigationLink(destination: NewsView()) {
+                            GridCell(imageName: "newspaper.circle.fill", count: 0, title: "ANNOUNCEMENTS_FILTER".localize(table: table))
                         }
                     }
                     .buttonStyle(CustomButtonStyle())
@@ -41,15 +42,15 @@ struct FeedbackView: View {
                 
                 // List
                 List {
-                    NavigationLink(destination: EmptyView()) {
+                    NavigationLink(destination: InboxView()) {
                         Label("COMBINED_INBOX", systemImage: "tray")
                     }
                     
-                    NavigationLink(destination: EmptyView()) {
+                    NavigationLink(destination: DraftsView()) {
                         Label("DRAFTS_INBOX", systemImage: "doc")
                     }
                     
-                    NavigationLink(destination: EmptyView()) {
+                    NavigationLink(destination: SubmittedView()) {
                         Label("SUBMITTED_INBOX", systemImage: "paperplane")
                     }
                     

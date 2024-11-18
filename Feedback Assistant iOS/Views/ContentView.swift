@@ -8,6 +8,8 @@ import UIKit
 
 struct ContentView: View {
     // Variables
+    @Environment(\.scenePhase) var scenePhase
+    @State var blurRadius : CGFloat = 0
     @State private var showingLicenseSheet = true
     @State private var showingSignInSheet = false
     @State private var showingSignInCover = false
@@ -34,6 +36,17 @@ struct ContentView: View {
                 }
             }
         }
+        .blur(radius: blurRadius)
+        .onChange(of: scenePhase) {
+            switch scenePhase {
+            case .active, .inactive:
+                blurRadius = 0
+            case .background:
+                blurRadius = 25
+            @unknown default:
+                blurRadius = 0
+            }
+        }
         .sheet(isPresented: $showingLicenseSheet) {
             NavigationStack {
                 LicenseView()
@@ -45,9 +58,11 @@ struct ContentView: View {
                         }
                     }
             }
+            .interactiveDismissDisabled()
         }
         .sheet(isPresented: $showingSignInSheet) {
             SignInView(signedIn: $signedIn)
+                .interactiveDismissDisabled()
         }
         .fullScreenCover(isPresented: $showingSignInCover) {
             SignInView(signedIn: $signedIn)

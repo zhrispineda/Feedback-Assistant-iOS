@@ -1,13 +1,13 @@
 //
-//  RecentActivityView.swift
+//  AllView.swift
 //  Feedback Assistant iOS
 //
-//  Feedback Assistant > Recent Activity
+//  Feedback Assistant > All
 //
 
 import SwiftUI
 
-struct RecentActivityView: View {
+struct AllView: View {
     // Variables
     @State private var searchText = String()
     @State private var filterEnabled = false
@@ -17,7 +17,7 @@ struct RecentActivityView: View {
         List {
             
         }
-        .navigationTitle("RECENT_ACTIVITY_FILTER".localize(table: table))
+        .navigationTitle("ALL_FILTER".localize(table: table))
         .searchable(text: $searchText, placement: .navigationBarDrawer)
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
@@ -53,6 +53,6 @@ struct RecentActivityView: View {
 
 #Preview {
     NavigationStack {
-        RecentActivityView()
+        AllView()
     }
 }
