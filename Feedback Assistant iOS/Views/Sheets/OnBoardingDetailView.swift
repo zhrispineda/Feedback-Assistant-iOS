@@ -152,7 +152,7 @@ struct OnBoardingDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .background(colorScheme == .light ? .white : Color(UIColor.secondarySystemBackground))
             .scrollContentBackground(.hidden)
-            .contentMargins(.horizontal, 100, for: .scrollContent)
+            .contentMargins(.horizontal, UIDevice.current.model == "iPad" ? 90 : 40, for: .scrollContent)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("SPLASH_TITLE", tableName: table)

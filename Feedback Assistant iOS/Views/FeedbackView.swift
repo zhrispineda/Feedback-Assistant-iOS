@@ -9,6 +9,8 @@ struct FeedbackView: View {
     // Variables
     @Environment(\.colorScheme) var colorScheme
     @State private var refreshing = false
+    @State private var showingNewFeedbackPopover = false
+    @State private var showingNewFeedbackButtonPopover = false
     let table = "CommonStrings"
     
     var body: some View {
@@ -54,8 +56,16 @@ struct FeedbackView: View {
                         Label("SUBMITTED_INBOX", systemImage: "paperplane")
                     }
                     
-                    Button {} label: {
+                    Button {
+                        showingNewFeedbackPopover.toggle()
+                    } label: {
                         Label("CREATE_FEEDBACK", systemImage: "bubble.and.pencil")
+                    }
+                    .popover(isPresented: $showingNewFeedbackPopover, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
+                        NavigationStack {
+                            NewFeedbackView()
+                        }
+                        .frame(width: UIDevice.current.model.contains("iPad") ? 350 : nil, height: UIDevice.current.model.contains("iPad") ? 400 : nil)
                     }
                 }
                 .frame(height: 220)
@@ -72,8 +82,16 @@ struct FeedbackView: View {
                     ZStack {
                         HStack {
                             Spacer()
-                            Button {} label: {
+                            Button {
+                                showingNewFeedbackButtonPopover.toggle()
+                            } label: {
                                 Image(systemName: "bubble.and.pencil")
+                            }
+                            .popover(isPresented: $showingNewFeedbackButtonPopover, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
+                                NavigationStack {
+                                    NewFeedbackView()
+                                }
+                                .frame(width: UIDevice.current.model.contains("iPad") ? 350 : nil, height: UIDevice.current.model.contains("iPad") ? 400 : nil)
                             }
                         }
                         if refreshing {

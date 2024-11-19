@@ -68,7 +68,7 @@ struct OnBoardingView: View {
                         .font(.subheadline)
                     }
                 }
-                .padding(.horizontal, 100)
+                .padding(.horizontal, UIDevice.current.model == "iPad" ? 90 : 40)
                 .overlay {
                     GeometryReader { geo in
                         Color.clear.onAppear {

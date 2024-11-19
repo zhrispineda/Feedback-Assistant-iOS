@@ -10,7 +10,8 @@ struct ContentView: View {
     // Variables
     @Environment(\.scenePhase) var scenePhase
     @State var blurRadius : CGFloat = 0
-    @State private var showingLicenseSheet = true
+    @AppStorage("AcceptedLicense") private var acceptedLicense = false
+    @State private var showingLicenseSheet = false
     @State private var showingSignInSheet = false
     @State private var showingSignInCover = false
     @State private var signedIn = false
@@ -37,6 +38,16 @@ struct ContentView: View {
             }
         }
         .blur(radius: blurRadius)
+        .onAppear {
+            showingLicenseSheet = !acceptedLicense
+            if acceptedLicense {
+                if UIDevice.current.model == "iPad" {
+                    showingSignInSheet = true
+                } else {
+                    showingSignInCover = true
+                }
+            }
+        }
         .onChange(of: scenePhase) {
             switch scenePhase {
             case .active, .inactive:

@@ -8,6 +8,7 @@ import SwiftUI
 struct LicenseView: View {
     // Variables
     @Environment(\.dismiss) private var dismiss
+    @AppStorage("AcceptedLicense") private var acceptedLicense = false
     @State private var showingLicenseAlert = false
     
     var body: some View {
@@ -36,6 +37,7 @@ struct LicenseView: View {
                     Spacer()
                     Button("ACCEPT") {
                         dismiss()
+                        acceptedLicense = true
                     }
                 }
             }
