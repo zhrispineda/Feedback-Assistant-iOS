@@ -7,27 +7,36 @@ import SwiftUI
 
 struct NewFeedbackView: View {
     // Variables
+    @AppStorage("feedbacks") private var feedbackData: Data = Data()
+    @State private var newFeedbackData = FeedbackType(platform: "", subtitle: "")
     @Environment(\.dismiss) private var dismiss
+    @Binding var showingNewFeedbackInfo: Bool
     let feedbackTypes: [FeedbackType] = [
-        FeedbackType(platform: "iOS & iPadOS", description: "iOS & iPadOS features, apps, and devices"),
-        FeedbackType(platform: "macOS", description: "macOS features, apps, and devices"),
-        FeedbackType(platform: "tvOS", description: "tvOS features, apps, and devices"),
-        FeedbackType(platform: "visionOS", description: "visionOS features, apps, and devices"),
-        FeedbackType(platform: "watchOS", description: "watchOS features, apps, and devices"),
-        FeedbackType(platform: "HomePod", description: "HomePod features, apps, and devices"),
-        FeedbackType(platform: "AirPods Beta Firmware", description: "AirPods Beta Firmware features, and devices"),
-        FeedbackType(platform: "Developer Technologies & SDKs", description: "APIs and Frameworks for all Apple Platforms"),
-        FeedbackType(platform: "Enterprise & Education", description: "MDM, enterprise and education programs and apps, training and certification"),
-        FeedbackType(platform: "MFi Technologies", description: "MFi Certification and tools")
+        FeedbackType(platform: "iOS & iPadOS", subtitle: "iOS & iPadOS features, apps, and devices"),
+        FeedbackType(platform: "macOS", subtitle: "macOS features, apps, and devices"),
+        FeedbackType(platform: "tvOS", subtitle: "tvOS features, apps, and devices"),
+        FeedbackType(platform: "visionOS", subtitle: "visionOS features, apps, and devices"),
+        FeedbackType(platform: "watchOS", subtitle: "watchOS features, apps, and devices"),
+        FeedbackType(platform: "HomePod", subtitle: "HomePod features, apps, and devices"),
+        FeedbackType(platform: "AirPods Beta Firmware", subtitle: "AirPods Beta Firmware features, and devices"),
+        FeedbackType(platform: "Developer Technologies & SDKs", subtitle: "APIs and Frameworks for all Apple Platforms"),
+        FeedbackType(platform: "Enterprise & Education", subtitle: "MDM, enterprise and education programs and apps, training and certification"),
+        FeedbackType(platform: "MFi Technologies", subtitle: "MFi Certification and tools")
     ]
-        
+    let fbData = FBData()
+    
     
     var body: some View {
         List {
             Section {
                 ForEach(feedbackTypes) { type in
-                    Button {} label: {
-                        NewFeedbackType(title: type.platform, subtitle: type.description)
+                    Button {
+                        dismiss()
+                        newFeedbackData = type
+                        fbData.saveFeedbackDraft(newFeedbackData)
+                        showingNewFeedbackInfo.toggle()
+                    } label: {
+                        NewFeedbackType(title: type.platform, subtitle: type.subtitle)
                     }
                     .foregroundStyle(.primary)
                 }
@@ -53,17 +62,6 @@ struct NewFeedbackView: View {
     }
 }
 
-struct FeedbackType: Identifiable {
-    var id = UUID()
-    var platform = String()
-    var description = String()
-    
-    init(platform: String, description: String) {
-        self.platform = platform
-        self.description = description
-    }
-}
-
 struct NewFeedbackType: View {
     var title = String()
     var subtitle = String()
@@ -83,6 +81,6 @@ struct NewFeedbackType: View {
 
 #Preview {
     NavigationStack {
-        NewFeedbackView()
+        NewFeedbackView(showingNewFeedbackInfo: .constant(false))
     }
 }

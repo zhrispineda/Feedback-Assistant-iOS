@@ -11,6 +11,9 @@ struct FeedbackView: View {
     @State private var refreshing = false
     @State private var showingNewFeedbackPopover = false
     @State private var showingNewFeedbackButtonPopover = false
+    @State private var showingNewFeedbackView = false
+    @State private var draftsCount = 0
+    let fbData = FBData()
     let table = "CommonStrings"
     
     var body: some View {
@@ -49,7 +52,12 @@ struct FeedbackView: View {
                     }
                     
                     NavigationLink(destination: DraftsView()) {
-                        Label("DRAFTS_INBOX", systemImage: "doc")
+                        HStack {
+                            Label("DRAFTS_INBOX", systemImage: "doc")
+                            Spacer()
+                            Text(draftsCount == 0 ? "" : "\(draftsCount)")
+                                .foregroundStyle(.secondary)
+                        }
                     }
                     
                     NavigationLink(destination: SubmittedView()) {
@@ -63,7 +71,7 @@ struct FeedbackView: View {
                     }
                     .popover(isPresented: $showingNewFeedbackPopover, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
                         NavigationStack {
-                            NewFeedbackView()
+                            NewFeedbackView(showingNewFeedbackInfo: $showingNewFeedbackView)
                         }
                         .frame(width: UIDevice.current.model.contains("iPad") ? 350 : nil, height: UIDevice.current.model.contains("iPad") ? 400 : nil)
                     }
@@ -72,8 +80,14 @@ struct FeedbackView: View {
                 .padding(.top, -20)
                 .padding(.horizontal, -5)
                 .scrollDisabled(true)
+                .popover(isPresented: $showingNewFeedbackView) {
+                    FeedbackDraftView()
+                }
             }
             .navigationTitle("FEEDBACK".localize(table: "CommonStrings"))
+            .onAppear {
+                draftsCount = fbData.fetchFeedbackCount()
+            }
             .refreshable {
                 refreshData()
             }
@@ -89,7 +103,7 @@ struct FeedbackView: View {
                             }
                             .popover(isPresented: $showingNewFeedbackButtonPopover, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
                                 NavigationStack {
-                                    NewFeedbackView()
+                                    NewFeedbackView(showingNewFeedbackInfo: $showingNewFeedbackView)
                                 }
                                 .frame(width: UIDevice.current.model.contains("iPad") ? 350 : nil, height: UIDevice.current.model.contains("iPad") ? 400 : nil)
                             }
@@ -112,6 +126,7 @@ struct FeedbackView: View {
             withAnimation {
                 refreshing = true
             }
+            draftsCount = fbData.fetchFeedbackCount()
             try? await Task.sleep(for: .seconds(Int.random(in: 1...2)))
             withAnimation {
                 refreshing = false
