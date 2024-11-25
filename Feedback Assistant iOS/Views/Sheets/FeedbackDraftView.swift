@@ -13,6 +13,8 @@ struct FeedbackDraftView: View {
     @State private var newFeedbackData = FeedbackType(platform: "", subtitle: "")
     @State private var title = String()
     @State private var description = String()
+    @FocusState private var titleFocused: Bool
+    @FocusState private var descriptionFocused: Bool
     let fbData = FBData()
     
     var body: some View {
@@ -32,8 +34,10 @@ struct FeedbackDraftView: View {
                     }
                 } header: {
                     Text("Topic")
+                        .font(.subheadline)
                         .fontWeight(.semibold)
                         .textCase(.none)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
                 .onAppear {
                     if let latestFeedback = fbData.sortedFeedbacks().first {
@@ -51,13 +55,30 @@ struct FeedbackDraftView: View {
                 }
                 
                 Section {
-                    VStack(alignment: .leading) {
-                        Text("Please provide a description title for your feedback:")
-                            .font(.callout)
-                            .fontWeight(.semibold)
-                        TextField("", text: $title, prompt: Text("Example: Unable to make phone calls from lock screen"))
-                            .autocapitalization(.none)
+                    Button {
+                        titleFocused = true
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Text("Please provide a description title for your feedback:")
+                                .font(.callout)
+                                .fontWeight(.semibold)
+                                .padding(.top, 10)
+                                .padding(.bottom, -10)
+                            TextEditor(text: $title)
+                                .focused($titleFocused)
+                                .frame(minHeight: description.isEmpty && !titleFocused ? 40 : nil, alignment: .leading)
+                                .padding(.leading, -5)
+                                .overlay {
+                                    if title.isEmpty && !titleFocused {
+                                        Text("Example: Unable to make phone calls from lock screen")
+                                            .font(.callout)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .foregroundStyle(.tertiary)
+                                    }
+                                }
+                        }
                     }
+                    .foregroundStyle(Color.primary)
                     Button {} label: {
                         NavigationLink {} label: {
                             VStack(alignment: .leading) {
@@ -86,22 +107,49 @@ struct FeedbackDraftView: View {
                     }
                 } header: {
                     Text("Basic Information")
+                        .font(.subheadline)
                         .fontWeight(.semibold)
                         .textCase(.none)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
                 
                 Section {
-                    VStack(alignment: .leading) {
-                        Text("Please describe the issue and what steps we can take to reproduce it:")
-                            .font(.callout)
-                            .fontWeight(.semibold)
-                        TextField("", text: $description, prompt: Text("Please include:"))
-                            .autocapitalization(.none)
+                    Button {
+                        descriptionFocused = true
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Text("Please describe the issue and what steps we can take to reproduce it:")
+                                .font(.callout)
+                                .fontWeight(.semibold)
+                                .padding(.top, 10)
+                                .padding(.bottom, -10)
+                            TextEditor(text: $description)
+                                .focused($descriptionFocused)
+                                .frame(minHeight: description.isEmpty && !descriptionFocused ? 125 : 60, alignment: .leading)
+                                .padding(.leading, -5)
+                                .overlay {
+                                    if description.isEmpty && !descriptionFocused {
+                                        Text("""
+                                             Please include:
+                                             - A clear description of the problem
+                                             - A step-by-step set of instructions to reproduce the problem (if possible)
+                                             - What results you expected
+                                             - What results you actually saw
+                                             """)
+                                        .font(.callout)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .foregroundStyle(.tertiary)
+                                    }
+                                }
+                        }
                     }
+                    .foregroundStyle(Color.primary)
                 } header: {
                     Text("Description")
+                        .font(.subheadline)
                         .fontWeight(.semibold)
                         .textCase(.none)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
                 
                 Section {
@@ -116,8 +164,10 @@ struct FeedbackDraftView: View {
                     NavigationLink("\(UIDevice.current.systemName) Sysdiagnose", destination: EmptyView())
                 } header: {
                     Text("Attachments")
+                        .font(.subheadline)
                         .fontWeight(.semibold)
                         .textCase(.none)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
                 
                 Section {

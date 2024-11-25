@@ -57,6 +57,8 @@ struct FeedbackType: Codable, Identifiable {
     var subtitle: String
     var description: String
     var timestamp: Date
+    var status: Status
+    var productArea: ProductArea
     
     var timestampText: String {
         let formatter = DateFormatter()
@@ -75,11 +77,21 @@ struct FeedbackType: Codable, Identifiable {
         return formatter.string(from: timestamp)
     }
     
-    init(platform: String, title: String = "Untitled Feedback", subtitle: String, description: String = "No answer provided", timestamp: Date = Date()) {
+    init(platform: String, title: String = "Untitled Feedback", subtitle: String, description: String = "No answer provided", timestamp: Date = Date(), status: Status = .draft, productArea: ProductArea = .other) {
         self.platform = platform
         self.title = title
         self.subtitle = subtitle
         self.description = description
         self.timestamp = timestamp
+        self.status = status
+        self.productArea = productArea
     }
+}
+
+enum Status: Decodable, Encodable {
+    case draft, open, attention
+}
+
+enum ProductArea: Decodable, Encodable {
+    case thirdParty, appStore, appSwitcher, audio, calculator, calendar, camera, clock, controlCenter, displayGraphics, feedbackAssistant, homeScreen, installationSetupMigrationRecovery, mail, maps, menuBar, music, news, passwords, photos, safari, settings, stageManager, swiftUI, systemCrashes, systemSettings, tvAppAppleTvPlus, translateApp, watchApp, weather, xcode, other
 }

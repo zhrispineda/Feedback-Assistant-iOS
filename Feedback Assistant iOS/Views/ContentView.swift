@@ -8,9 +8,10 @@ import UIKit
 
 struct ContentView: View {
     // Variables
-    @Environment(\.scenePhase) var scenePhase
-    @State var blurRadius : CGFloat = 0
     @AppStorage("AcceptedLicense") private var acceptedLicense = false
+    @Environment(\.scenePhase) var scenePhase
+    @State var blurRadius: CGFloat = 0
+    @State private var feedbacks: [FeedbackType] = []
     @State private var showingLicenseSheet = false
     @State private var showingSignInSheet = false
     @State private var showingSignInCover = false

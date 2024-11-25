@@ -25,7 +25,7 @@ struct FeedbackView: View {
                 LazyVGrid(columns: [.init(), .init()]) {
                     Group {
                         NavigationLink(destination: RecentActivityView()) {
-                            GridCell(imageName: "clock.circle.fill", count: 0, title: "RECENT_ACTIVITY_FILTER".localize(table: table))
+                            GridCell(imageName: "clock.circle.fill", count: draftsCount, title: "RECENT_ACTIVITY_FILTER".localize(table: table))
                         }
                         
                         NavigationLink(destination: RequestsView()) {
@@ -33,7 +33,7 @@ struct FeedbackView: View {
                         }
                         
                         NavigationLink(destination: AllView()) {
-                            GridCell(imageName: "tray.circle.fill", count: 0, title: "ALL_FILTER".localize(table: table))
+                            GridCell(imageName: "tray.circle.fill", count: draftsCount, title: "ALL_FILTER".localize(table: table))
                         }
                         
                         NavigationLink(destination: NewsView()) {

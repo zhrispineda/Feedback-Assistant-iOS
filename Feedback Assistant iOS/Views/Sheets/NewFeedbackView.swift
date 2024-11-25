@@ -55,7 +55,7 @@ struct NewFeedbackView: View {
                     Image(systemName: "xmark.circle.fill")
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(Color(UIColor.systemGray), Color(UIColor.systemGray4))
-                        .font(.title)
+                        .font(.title2)
                 }
             }
         }
