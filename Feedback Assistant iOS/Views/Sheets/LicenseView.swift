@@ -7,8 +7,8 @@ import SwiftUI
 
 struct LicenseView: View {
     // Variables
-    @Environment(\.dismiss) private var dismiss
     @AppStorage("AcceptedLicense") private var acceptedLicense = false
+    @Environment(\.dismiss) private var dismiss
     @State private var showingLicenseAlert = false
     
     var body: some View {

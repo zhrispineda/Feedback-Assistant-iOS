@@ -13,7 +13,8 @@ struct FeedbackView: View {
     @State private var showingNewFeedbackButtonPopover = false
     @State private var showingNewFeedbackView = false
     @State private var draftsCount = 0
-    let fbData = FBData()
+    @State private var feedbackDraft = FeedbackType(platform: "", subtitle: "")
+    let fbData = FeedbackHelper()
     let table = "CommonStrings"
     
     var body: some View {
@@ -81,7 +82,7 @@ struct FeedbackView: View {
                 .padding(.horizontal, -5)
                 .scrollDisabled(true)
                 .popover(isPresented: $showingNewFeedbackView) {
-                    FeedbackDraftView()
+                    FeedbackDraftView(currentFeedback: $feedbackDraft)
                 }
             }
             .navigationTitle("FEEDBACK".localize(table: "CommonStrings"))

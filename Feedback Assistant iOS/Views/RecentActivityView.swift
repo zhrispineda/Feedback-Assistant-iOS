@@ -13,7 +13,7 @@ struct RecentActivityView: View {
     @State private var filterEnabled = false
     @State private var feedbacks: [FeedbackType] = []
     let table = "CommonStrings"
-    let fbData = FBData()
+    let feedbackHelper = FeedbackHelper()
     var filteredFeedbacks: [FeedbackType] {
         if searchText.isEmpty {
             return feedbacks
@@ -52,7 +52,7 @@ struct RecentActivityView: View {
         .navigationTitle("RECENT_ACTIVITY_FILTER".localize(table: table))
         .searchable(text: $searchText, placement: .navigationBarDrawer)
         .onAppear {
-            feedbacks = fbData.sortedFeedbacks()
+            feedbacks = feedbackHelper.sortedFeedbacks()
         }
         .toolbar {
             ToolbarItem(placement: .bottomBar) {

@@ -13,7 +13,7 @@ struct DraftsView: View {
     @State private var filterEnabled = false
     @State private var feedbacks: [FeedbackType] = []
     let table = "CommonStrings"
-    let fbData = FBData()
+    let feedbackHelper = FeedbackHelper()
     
     var filteredFeedbacks: [FeedbackType] {
         if searchText.isEmpty {
@@ -34,7 +34,7 @@ struct DraftsView: View {
                     HStack {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text(feedback.title)
+                                Text(feedback.title.isEmpty ? "Untitled Feedback" : feedback.title)
                                     .font(.headline)
                                 Spacer()
                                 Text(feedback.timestampText)
@@ -48,16 +48,19 @@ struct DraftsView: View {
                     }
                 }
             }
-            .onDelete(perform: fbData.deleteFeedback)
+            .onDelete { indexSet in
+                feedbackHelper.deleteFeedback(at: indexSet)
+                feedbacks = feedbackHelper.sortedFeedbacks()
+            }
         }
         .listStyle(.inset)
         .onAppear {
-            feedbacks = fbData.sortedFeedbacks()
+            feedbacks = feedbackHelper.sortedFeedbacks()
         }
         .navigationBarItems(trailing: EditButton())
         .navigationTitle("DRAFTS_INBOX")
         .refreshable {
-            feedbacks = fbData.sortedFeedbacks()
+            feedbacks = feedbackHelper.sortedFeedbacks()
         }
         .searchable(text: $searchText, placement: .navigationBarDrawer)
         .toolbar {

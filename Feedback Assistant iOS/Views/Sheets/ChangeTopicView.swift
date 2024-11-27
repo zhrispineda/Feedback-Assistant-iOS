@@ -1,15 +1,14 @@
 //
-//  NewFeedbackView.swift
+//  ChangeTopicView.swift
 //  Feedback Assistant iOS
 //
 
 import SwiftUI
 
-struct NewFeedbackView: View {
+struct ChangeTopicView: View {
     // Variables
-    @State private var newFeedbackData = FeedbackType(platform: "", subtitle: "")
+    @Binding var currentFeedback: FeedbackType
     @Environment(\.dismiss) private var dismiss
-    @Binding var showingNewFeedbackInfo: Bool
     let feedbackTypes: [FeedbackType] = [
         FeedbackType(platform: "iOS & iPadOS", subtitle: "iOS & iPadOS features, apps, and devices"),
         FeedbackType(platform: "macOS", subtitle: "macOS features, apps, and devices"),
@@ -30,10 +29,9 @@ struct NewFeedbackView: View {
             Section {
                 ForEach(feedbackTypes) { type in
                     Button {
+                        currentFeedback.platform = type.platform
+                        currentFeedback.subtitle = type.subtitle
                         dismiss()
-                        newFeedbackData = type
-                        feedbackHelper.saveFeedbackDraft(newFeedbackData)
-                        showingNewFeedbackInfo.toggle()
                     } label: {
                         NewFeedbackType(title: type.platform, subtitle: type.subtitle)
                     }
@@ -44,7 +42,7 @@ struct NewFeedbackView: View {
             }
         }
         .listStyle(.grouped)
-        .navigationTitle("New Feedback")
+        .navigationTitle("Topic")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -61,25 +59,8 @@ struct NewFeedbackView: View {
     }
 }
 
-struct NewFeedbackType: View {
-    var title = String()
-    var subtitle = String()
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 1) {
-                Text(title)
-                    .fontWeight(.medium)
-                Text(subtitle)
-                    .font(.footnote)
-            }
-            Spacer()
-        }
-    }
-}
-
 #Preview {
     NavigationStack {
-        NewFeedbackView(showingNewFeedbackInfo: .constant(false))
+        ChangeTopicView(currentFeedback: .constant(FeedbackType(platform: "Platform", subtitle: "Subtitle")))
     }
 }

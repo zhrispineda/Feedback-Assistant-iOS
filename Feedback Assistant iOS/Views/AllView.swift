@@ -12,7 +12,7 @@ struct AllView: View {
     @State private var searchText = String()
     @State private var filterEnabled = false
     @State private var feedbacks: [FeedbackType] = []
-    let fbData = FBData()
+    let feedbackHelper = FeedbackHelper()
     let table = "CommonStrings"
     var filteredFeedbacks: [FeedbackType] {
         if searchText.isEmpty {
@@ -52,7 +52,7 @@ struct AllView: View {
         .navigationTitle("ALL_FILTER".localize(table: table))
         .searchable(text: $searchText, placement: .navigationBarDrawer)
         .onAppear {
-            feedbacks = fbData.sortedFeedbacks()
+            feedbacks = feedbackHelper.sortedFeedbacks()
         }
         .toolbar {
             ToolbarItem(placement: .bottomBar) {

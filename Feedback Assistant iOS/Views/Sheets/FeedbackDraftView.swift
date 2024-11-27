@@ -8,29 +8,37 @@
 import SwiftUI
 
 struct FeedbackDraftView: View {
-    @AppStorage("feedbacks") private var feedbackData: Data = Data()
+    @Binding var currentFeedback: FeedbackType
     @Environment(\.dismiss) private var dismiss
-    @State private var newFeedbackData = FeedbackType(platform: "", subtitle: "")
-    @State private var title = String()
-    @State private var description = String()
     @FocusState private var titleFocused: Bool
     @FocusState private var descriptionFocused: Bool
-    let fbData = FBData()
+    @State private var title = String()
+    @State private var description = String()
+    @State private var showingTopicSheet = false
+    @State private var showingProblemAreaSheet = false
+    let feedbackHelper = FeedbackHelper()
     
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    Button {} label: {
+                    Button {
+                        showingTopicSheet.toggle()
+                    } label: {
                         NavigationLink {} label: {
                             VStack(alignment: .leading) {
-                                Text(newFeedbackData.platform)
+                                Text(currentFeedback.platform)
                                     .fontWeight(.semibold)
-                                Text(newFeedbackData.subtitle)
+                                Text(currentFeedback.subtitle)
                                     .font(.footnote)
                             }
                         }
                         .foregroundStyle(Color.primary)
+                    }
+                    .sheet(isPresented: $showingTopicSheet) {
+                        NavigationStack {
+                            ChangeTopicView(currentFeedback: $currentFeedback)
+                        }
                     }
                 } header: {
                     Text("Topic")
@@ -40,18 +48,27 @@ struct FeedbackDraftView: View {
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
                 .onAppear {
-                    if let latestFeedback = fbData.sortedFeedbacks().first {
-                        newFeedbackData = latestFeedback
+                    if !currentFeedback.title.isEmpty {
+                        title = currentFeedback.title
+                        description = currentFeedback.description
+                    }
+                    if let latestFeedback = feedbackHelper.sortedFeedbacks().first {
+                        if latestFeedback.title.isEmpty && latestFeedback.description.isEmpty {
+                            currentFeedback = latestFeedback
+                        }
                     }
                 }
                 .onDisappear {
                     if !title.isEmpty {
-                        newFeedbackData.title = title
+                        currentFeedback.title = title
                     }
                     if !description.isEmpty {
-                        newFeedbackData.description = description
+                        currentFeedback.description = description
                     }
-                    fbData.updateFeedback(newFeedbackData)
+                    currentFeedback.timestamp = Date()
+                    feedbackHelper.updateFeedback(currentFeedback)
+                    // Cleanup
+                    currentFeedback = FeedbackType(platform: "", subtitle: "")
                 }
                 
                 Section {
@@ -79,19 +96,31 @@ struct FeedbackDraftView: View {
                         }
                     }
                     .foregroundStyle(Color.primary)
-                    Button {} label: {
+                    
+                    Button {
+                        showingProblemAreaSheet.toggle()
+                    } label: {
                         NavigationLink {} label: {
                             VStack(alignment: .leading) {
                                 Text("Which area are you seeing an issue with?")
                                     .font(.callout)
                                     .fontWeight(.semibold)
-                                Text("Please select the problem area")
-                                    .font(.callout)
-                                    .foregroundStyle(.tertiary)
+                                if currentFeedback.productArea == .none {
+                                    Text("Please select the problem area")
+                                        .font(.callout)
+                                        .foregroundStyle(.tertiary)
+                                } else {
+                                    Text(currentFeedback.productArea.rawValue)
+                                        .font(.callout)
+                                }
                             }
                         }
                         .foregroundStyle(Color.primary)
                     }
+                    .sheet(isPresented: $showingProblemAreaSheet) {
+                        ProblemAreaPickerView(currentFeedback: $currentFeedback)
+                    }
+                    
                     Button {} label: {
                         NavigationLink {} label: {
                             VStack(alignment: .leading) {
@@ -153,21 +182,29 @@ struct FeedbackDraftView: View {
                 }
                 
                 Section {
-                    VStack(alignment: .leading) {
-                        Text(UIDevice.current.model)
-                            .font(.callout)
-                            .fontWeight(.semibold)
-                        Text(UIDevice.current.model)
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
+                    HStack(spacing: 10) {
+                        Image(systemName: UIDevice.current.model.lowercased())
+                            .font(.title)
+                        VStack(alignment: .leading) {
+                            Text(UIDevice.current.model)
+                                .font(.callout)
+                                .fontWeight(.semibold)
+                            Text(UIDevice.current.model)
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                        }
                     }
-                    NavigationLink("\(UIDevice.current.systemName) Sysdiagnose", destination: EmptyView())
+                    NavigationLink("iOS Sysdiagnose", destination: EmptyView())
+                        .padding(.leading, 40)
                 } header: {
                     Text("Attachments")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .textCase(.none)
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                }
+                .alignmentGuide(.listRowSeparatorLeading) { ViewDimensions in
+                    return 40
                 }
                 
                 Section {
@@ -176,8 +213,13 @@ struct FeedbackDraftView: View {
                     Text("The device logs gathered by Feedback Assistant may contain personal information. You can tap to view the attached logs before submission, or swipe left to delete.")
                 }
             }
-            .navigationTitle(newFeedbackData.platform)
+            .navigationTitle(currentFeedback.platform)
             .navigationBarTitleDisplayMode(.inline)
+            .task {
+#if DEBUG
+                print("[FeedbackDraftView] Beginning draft form for:\n\(currentFeedback)\n")
+#endif
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
@@ -195,5 +237,5 @@ struct FeedbackDraftView: View {
 }
 
 #Preview {
-    FeedbackDraftView()
+    FeedbackDraftView(currentFeedback: .constant(FeedbackType(platform: "Platform", subtitle: "Subtitle")))
 }
