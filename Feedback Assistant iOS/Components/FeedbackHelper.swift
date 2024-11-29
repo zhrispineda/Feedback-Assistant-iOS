@@ -54,6 +54,19 @@ class FeedbackHelper {
         }
         return 0
     }
+    
+    let feedbackTypes: [FeedbackType] = [
+        FeedbackType(platform: "iOS & iPadOS", subtitle: "iOS & iPadOS features, apps, and devices"),
+        FeedbackType(platform: "macOS", subtitle: "macOS features, apps, and devices"),
+        FeedbackType(platform: "tvOS", subtitle: "tvOS features, apps, and devices"),
+        FeedbackType(platform: "visionOS", subtitle: "visionOS features, apps, and devices"),
+        FeedbackType(platform: "watchOS", subtitle: "watchOS features, apps, and devices"),
+        FeedbackType(platform: "HomePod", subtitle: "HomePod features, apps, and devices"),
+        FeedbackType(platform: "AirPods Beta Firmware", subtitle: "AirPods Beta Firmware features, and devices"),
+        FeedbackType(platform: "Developer Technologies & SDKs", subtitle: "APIs and Frameworks for all Apple Platforms"),
+        FeedbackType(platform: "Enterprise & Education", subtitle: "MDM, enterprise and education programs and apps, training and certification"),
+        FeedbackType(platform: "MFi Technologies", subtitle: "MFi Certification and tools")
+    ]
 }
 
 struct FeedbackType: Codable, Identifiable {
@@ -65,6 +78,7 @@ struct FeedbackType: Codable, Identifiable {
     var timestamp: Date
     var status: Status
     var productArea: ProductArea
+    var productType: String
     
     var timestampText: String {
         let formatter = DateFormatter()
@@ -83,7 +97,7 @@ struct FeedbackType: Codable, Identifiable {
         return formatter.string(from: timestamp)
     }
     
-    init(platform: String, title: String = "", subtitle: String, description: String = "", timestamp: Date = Date(), status: Status = .draft, productArea: ProductArea = .none) {
+    init(platform: String, title: String = "", subtitle: String, description: String = "", timestamp: Date = Date(), status: Status = .draft, productArea: ProductArea = .none, productType: String = "") {
         self.platform = platform
         self.title = title
         self.subtitle = subtitle
@@ -91,6 +105,7 @@ struct FeedbackType: Codable, Identifiable {
         self.timestamp = timestamp
         self.status = status
         self.productArea = productArea
+        self.productType = productType
     }
 }
 

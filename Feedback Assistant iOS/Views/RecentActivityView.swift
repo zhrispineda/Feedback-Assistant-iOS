@@ -33,7 +33,7 @@ struct RecentActivityView: View {
                     HStack {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text(feedback.title)
+                                Text(feedback.title.isEmpty ? "Untitled Feedback" : feedback.title)
                                     .font(.headline)
                                 Spacer()
                                 Text(feedback.timestampText)
@@ -67,10 +67,7 @@ struct RecentActivityView: View {
                                 .imageScale(.large)
                         }
                         Spacer()
-                        Button {} label: {
-                            Image(systemName: "bubble.and.pencil")
-                                .imageScale(.large)
-                        }
+                        NewFeedbackButton()
                     }
                     if filterEnabled {
                         VStack(spacing: -5) {

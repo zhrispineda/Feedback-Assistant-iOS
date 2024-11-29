@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+                @font-face {
+                    font-family: 'Myriad Set Pro';
+                    font-style: normal;
+                    font-weight: 200;
+                    src: url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_text.eot?v=3') format('eot'),
+                    url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_thin.woff?v=3') format('woff'),
+                    url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_thin.ttf?v=3') format('truetype');
+                }
+                @font-face {
+                    font-family: 'Myriad Set Pro';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_text.eot?v=3') format('eot'),
+                    url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_text.woff?v=3') format('woff'),
+                    url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_text.ttf?v=3') format('truetype');
+                }
+                @font-face {
+                    font-family: 'Myriad Set Pro';
+                    font-style: normal;
+                    font-weight: 600;
+                    src: url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_text.eot?v=3') format('eot'),
+                    url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_semibold.woff?v=3') format('woff'),
+                    url('https://appleseedcdn.apple.com/sp/assets/open/tenten/ac-assets/fonts/myriad-set-pro_semibold.ttf?v=3') format('truetype');
+                }
+                
+                .announcementNoticeContainer {
+                    font-family: Helvetica, 'Myriad Set Pro', 'Helvetica Neue', Arial, sans-serif;
+                    margin: 0;
+                    width: 100%;
+                    box-sizing: border-box;
+                    background-color: transparent; /* Remove background */
+                }
+                
+                .announcementNoticeContainer h1 {
+                    font-weight: 100;
+                    line-height: 1em;
+                    color: rgb(51, 51, 51);
+                    text-align: center;
+                    font-size: 2.4rem;
+                    margin: 0;
+                }
+                
+                .announcementNoticeContainer h2, .announcementNoticeContainer h3, .announcementNoticeContainer h4 {
+                    font-weight: 100;
+                    color: #999999;
+                    text-align: center;
+                    line-height: 1.2em;
+                }
+                
+                .announcementNoticeContainer p {
+                    text-align: center;
+                    font-size: 1rem;
+                    color: #555;
+                    margin: 15px;
+                }
+                
+                .announcementNoticeContainer #newfeedbackbutton {
+                    background: linear-gradient(#37aaea, #117ed2);
+                    border: 1px solid #137ec6;
+                    border-radius: 4px;
+                    color: white;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    padding: 0.5em 1.5em;
+                    display: inline-block;
+                    text-align: center;
+                    margin-top: 20px;
+                    margin-bottom: 30px;
+                    text-decoration: none;
+                    width: auto;
+                }
+                
+                .announcementNoticeContainer #newFeedback {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding-top: 20px;
+                }
+                
+                .announcementNoticeContainer img {
+                    width: 100%;
+                    max-width: 450px;
+                    height: auto;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                }
+                
+                @media (prefers-color-scheme: dark) {
+                    .announcementNoticeContainer h1,
+                    .announcementNoticeContainer h2,
+                    .announcementNoticeContainer h3,
+                    .announcementNoticeContainer h4 {
+                        color: #ddd;
+                    }
+                    
+                    .announcementNoticeContainer p {
+                        color: #ccc;
+                    }
+                    
+                    .announcementNoticeContainer #newfeedbackbutton {
+                        background: #4da9f9;
+                        color: black;
+                    }
+                }
+                
+                @media (max-width: 768px) {
+                    .announcementNoticeContainer h1 {
+                        font-size: 2rem;
+                    }
+                    
+                    .announcementNoticeContainer h2 {
+                        font-size: 1.8rem;
+                    }
+                    
+                    .announcementNoticeContainer p {
+                        font-size: 0.9rem;
+                    }
+                    
+                    .announcementNoticeContainer img {
+                        width: 80%;
+                    }
+                }
+                
+                @media (max-width: 576px) {
+                    .announcementNoticeContainer h1 {
+                        font-size: 1.6rem;
+                    }
+                    
+                    .announcementNoticeContainer h2 {
+                        font-size: 1.4rem;
+                    }
+                    
+                    .announcementNoticeContainer p {
+                        font-size: 0.85rem;
+                    }
+                    
+                    .announcementNoticeContainer img {
+                        width: 70%;
+                    }
+                    
+                    .announcementNoticeContainer #newfeedbackbutton {
+                        padding: 0.5em 1.2em;
+                    }
+                }
+            </style>
+    </head>
+    <body>
+        <div class="announcementNoticeContainer">
+            <div id="osxid1_messageBody">
+                <center>
+                    <img src="https://appleseedcdn.apple.com/assets/images/notices/2023/welcome-hero-medium-2x.png" alt="Apple products" />
+                </center>
+                <h2>Welcome to the</h2>
+                <h1>Apple Developer Program</h1>
+                <p>Help make the next releases of iOS, iPadOS, macOS, tvOS, watchOS and HomePod software our best yet. As a member of the Apple Beta Software Program, you can take part in shaping Apple software by test-driving pre-release versions and letting us know what you think.</p>
+                <div id="newFeedback">
+                    <a href="applefeedback://new?" id="newfeedbackbutton">Send us your Feedback</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

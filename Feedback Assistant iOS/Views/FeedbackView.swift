@@ -14,7 +14,7 @@ struct FeedbackView: View {
     @State private var showingNewFeedbackView = false
     @State private var draftsCount = 0
     @State private var feedbackDraft = FeedbackType(platform: "", subtitle: "")
-    let fbData = FeedbackHelper()
+    let feedbackHelper = FeedbackHelper()
     let table = "CommonStrings"
     
     var body: some View {
@@ -83,11 +83,12 @@ struct FeedbackView: View {
                 .scrollDisabled(true)
                 .popover(isPresented: $showingNewFeedbackView) {
                     FeedbackDraftView(currentFeedback: $feedbackDraft)
+                        .interactiveDismissDisabled()
                 }
             }
             .navigationTitle("FEEDBACK".localize(table: "CommonStrings"))
             .onAppear {
-                draftsCount = fbData.fetchFeedbackCount()
+                draftsCount = feedbackHelper.fetchFeedbackCount()
             }
             .refreshable {
                 refreshData()
@@ -127,7 +128,7 @@ struct FeedbackView: View {
             withAnimation {
                 refreshing = true
             }
-            draftsCount = fbData.fetchFeedbackCount()
+            draftsCount = feedbackHelper.fetchFeedbackCount()
             try? await Task.sleep(for: .seconds(Int.random(in: 1...2)))
             withAnimation {
                 refreshing = false

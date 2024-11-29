@@ -40,7 +40,7 @@ struct FeedbackReadDraftView: View {
                     Text("What type of feedback are you reporting?")
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                    Text("No answer provided\n")
+                    Text(feedback.productType.isEmpty ? "No answer provided\n" : "\(feedback.productType)\n")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     Divider()
@@ -74,7 +74,7 @@ struct FeedbackReadDraftView: View {
             }
             .contentMargins(.top, 0)
             .listStyle(.grouped)
-            .navigationTitle(feedback.title)
+            .navigationTitle(feedback.title.isEmpty ? "Untitled Feedback" : feedback.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

@@ -76,10 +76,7 @@ struct DraftsView: View {
                                 .imageScale(.large)
                         }
                         Spacer()
-                        Button {} label: {
-                            Image(systemName: "bubble.and.pencil")
-                                .imageScale(.large)
-                        }
+                        NewFeedbackButton()
                     }
                     if filterEnabled {
                         VStack(spacing: -5) {
