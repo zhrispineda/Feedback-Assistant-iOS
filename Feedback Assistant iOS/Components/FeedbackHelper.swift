@@ -79,6 +79,7 @@ struct FeedbackType: Codable, Identifiable {
     var status: Status
     var productArea: ProductArea
     var productType: String
+    var lastOccurrence: String
     
     var timestampText: String {
         let formatter = DateFormatter()
@@ -97,7 +98,7 @@ struct FeedbackType: Codable, Identifiable {
         return formatter.string(from: timestamp)
     }
     
-    init(platform: String, title: String = "", subtitle: String, description: String = "", timestamp: Date = Date(), status: Status = .draft, productArea: ProductArea = .none, productType: String = "") {
+    init(platform: String, title: String = "", subtitle: String, description: String = "", timestamp: Date = Date(), status: Status = .open, productArea: ProductArea = .none, productType: String = "", lastOccurrence: String = "") {
         self.platform = platform
         self.title = title
         self.subtitle = subtitle
@@ -106,11 +107,12 @@ struct FeedbackType: Codable, Identifiable {
         self.status = status
         self.productArea = productArea
         self.productType = productType
+        self.lastOccurrence = lastOccurrence
     }
 }
 
 enum Status: Decodable, Encodable {
-    case draft, open, attention, closed
+    case open, attention, closed
 }
 
 enum ProductArea: String, CaseIterable, Decodable, Encodable {

@@ -38,7 +38,7 @@ struct FeedbackView: View {
                         }
                         
                         NavigationLink(destination: NewsView()) {
-                            GridCell(imageName: "newspaper.circle.fill", count: 0, title: "ANNOUNCEMENTS_FILTER".localize(table: table))
+                            GridCell(imageName: "newspaper.circle.fill", count: 3, title: "ANNOUNCEMENTS_FILTER".localize(table: table))
                         }
                     }
                     .buttonStyle(CustomButtonStyle())

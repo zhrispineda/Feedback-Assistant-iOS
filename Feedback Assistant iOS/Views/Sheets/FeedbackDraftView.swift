@@ -16,8 +16,6 @@ struct FeedbackDraftView: View {
     @State private var title = String()
     @State private var description = String()
     @State private var showingTopicSheet = false
-    @State private var showingProblemAreaSheet = false
-    @State private var showingProblemTypeSheet = false
     @State private var showingIncompleteAlert = false
     @State private var incompleteCheck = false
     let feedbackHelper = FeedbackHelper()
@@ -25,6 +23,7 @@ struct FeedbackDraftView: View {
     var body: some View {
         NavigationStack {
             List {
+                // MARK: Topic section
                 Section {
                     Button {
                         showingTopicSheet.toggle()
@@ -41,12 +40,10 @@ struct FeedbackDraftView: View {
                     }
                 } header: {
                     Text("Topic")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .textCase(.none)
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .sectionHeaderStyle()
                 }
                 
+                // MARK: Basic Information section
                 Section {
                     Button {
                         titleFocused = true
@@ -76,7 +73,7 @@ struct FeedbackDraftView: View {
                                                 .foregroundStyle(.tertiary)
                                         }
                                     }
-                                    .onChange(of: title) {
+                                    .onChange(of: title) { // Prevent new lines
                                         title = title.replacingOccurrences(of: "\n", with: "")
                                         incompleteCheck = false
                                     }
@@ -85,98 +82,78 @@ struct FeedbackDraftView: View {
                     }
                     .foregroundStyle(Color.primary)
                     
-                    Button {
-                        showingProblemAreaSheet.toggle()
-                    } label: {
-                        NavigationLink {} label: {
-                            VStack(alignment: .leading) {
-                                Text("Which area are you seeing an issue with?")
-                                    .font(.callout)
-                                    .fontWeight(.semibold)
-                                if currentFeedback.productArea == .none {
-                                    Text("Please select the problem area")
-                                        .font(.callout)
-                                        .foregroundStyle(.tertiary)
-                                } else {
-                                    Text(currentFeedback.productArea.rawValue)
-                                        .font(.callout)
-                                }
-                            }
+                    HStack {
+                        if incompleteCheck && currentFeedback.productArea == .none {
+                            Image(systemName: "arrow.forward.circle.fill")
+                                .foregroundStyle(.red)
+                                .fontWeight(.heavy)
+                                .padding(.leading, -10)
                         }
-                        .foregroundStyle(Color.primary)
+                        PickerButton(currentFeedback: $currentFeedback, pickerType: .productArea)
                     }
-                    .sheet(isPresented: $showingProblemAreaSheet) {
-                        ProblemAreaPickerView(currentFeedback: $currentFeedback, pickerType: .productArea)
-                    }
-                    
-                    Button {
-                        showingProblemTypeSheet.toggle()
-                    } label: {
-                        NavigationLink {} label: {
-                            VStack(alignment: .leading) {
-                                Text("What type of feedback are you reporting?")
-                                    .font(.callout)
-                                    .fontWeight(.semibold)
-                                if currentFeedback.productType.isEmpty {
-                                    Text("Choose...")
-                                        .font(.callout)
-                                        .foregroundStyle(.tertiary)
-                                } else {
-                                    Text(currentFeedback.productType)
-                                        .font(.callout)
-                                }
-                            }
-                        }
-                        .foregroundStyle(Color.primary)
-                    }
-                    .sheet(isPresented: $showingProblemTypeSheet) {
-                        ProblemAreaPickerView(currentFeedback: $currentFeedback, pickerType: .productType)
-                    }
+                    PickerButton(currentFeedback: $currentFeedback, pickerType: .productType)
                 } header: {
                     Text("Basic Information")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .textCase(.none)
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .sectionHeaderStyle()
                 }
                 
+                // MARK: Details section
+                if currentFeedback.platform == "visionOS" {
+                    Section {
+                        PickerButton(currentFeedback: $currentFeedback, pickerType: .lastOccurrence)
+                    } header: {
+                        Text("Details")
+                            .sectionHeaderStyle()
+                    }
+                }
+                
+                // MARK: Description section
                 Section {
                     Button {
                         descriptionFocused = true
                     } label: {
-                        VStack(alignment: .leading) {
-                            Text("Please describe the issue and what steps we can take to reproduce it:")
-                                .font(.callout)
-                                .fontWeight(.semibold)
-                                .padding(.top, 10)
-                                .padding(.bottom, -10)
-                            TextEditor(text: $description)
-                                .focused($descriptionFocused)
-                                .frame(minHeight: description.isEmpty && !descriptionFocused ? 125 : 60, alignment: .leading)
-                                .padding(.leading, -5)
-                                .overlay {
-                                    if description.isEmpty && !descriptionFocused {
-                                        Text("""
-                                             Please include:
-                                             - A clear description of the problem
-                                             - A step-by-step set of instructions to reproduce the problem (if possible)
-                                             - What results you expected
-                                             - What results you actually saw
-                                             """)
-                                        .font(.callout)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .foregroundStyle(.tertiary)
+                        HStack {
+                            if incompleteCheck && description.isEmpty {
+                                Image(systemName: "arrow.forward.circle.fill")
+                                    .foregroundStyle(.red)
+                                    .fontWeight(.heavy)
+                                    .padding(.leading, -10)
+                            }
+                            VStack(alignment: .leading) {
+                                Text("Please describe the issue and what steps we can take to reproduce it:")
+                                    .font(.callout)
+                                    .fontWeight(.semibold)
+                                    .padding(.top, 10)
+                                    .padding(.bottom, -10)
+                                TextEditor(text: $description)
+                                    .focused($descriptionFocused)
+                                    .frame(minHeight: description.isEmpty && !descriptionFocused ? 125 : 60, alignment: .leading)
+                                    .padding(.leading, -5)
+                                    .overlay {
+                                        if description.isEmpty && !descriptionFocused {
+                                            Text("""
+                                                 Please include:
+                                                 - A clear description of the problem
+                                                 - A step-by-step set of instructions to reproduce the problem (if possible)
+                                                 - What results you expected
+                                                 - What results you actually saw
+                                                 """)
+                                            .font(.callout)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .foregroundStyle(.tertiary)
+                                        }
                                     }
-                                }
+                            }
                         }
                     }
                     .foregroundStyle(Color.primary)
+                    
+                    if currentFeedback.platform == "HomePod" {
+                        PickerButton(currentFeedback: $currentFeedback, pickerType: .lastOccurrence)
+                    }
                 } header: {
                     Text("Description")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .textCase(.none)
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .sectionHeaderStyle()
                 }
                 
                 if currentFeedback.platform == "iOS & iPadOS" {
@@ -197,10 +174,7 @@ struct FeedbackDraftView: View {
                             .padding(.leading, 40)
                     } header: {
                         Text("Attachments")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .textCase(.none)
-                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .sectionHeaderStyle()
                     }
                     .alignmentGuide(.listRowSeparatorLeading) { ViewDimensions in
                         return 40
@@ -319,5 +293,5 @@ struct FeedbackDraftView: View {
 }
 
 #Preview {
-    FeedbackDraftView(currentFeedback: .constant(FeedbackType(platform: "iOS & iPadOS", subtitle: "Subtitle")))
+    FeedbackDraftView(currentFeedback: .constant(FeedbackType(platform: "visionOS", subtitle: "Subtitle")))
 }

@@ -58,6 +58,7 @@ struct NewsView: View {
             dateFormatter.dateFormat = "yyyy-M-d'T'HH:mm:ssZ"
             
             feedbacks = [
+                FeedbackType(platform: "Developer Seed", title: "Introducing Teams for Feedback Assistant", subtitle: "", description: "4065", timestamp: dateFormatter.date(from: "2020-06-22T17:17:44Z") ?? Date(), status: .attention, productArea: .announcement),
                 FeedbackType(platform: "Apple Beta Software Program", title: "Apple Beta Software Program", subtitle: "", description: "3421", timestamp: dateFormatter.date(from: "2019-06-05T01:12:41Z") ?? Date(), status: .attention, productArea: .announcement),
                 FeedbackType(platform: "Developer Seed", title: "Apple Developer Program", subtitle: "", description: "3416", timestamp: dateFormatter.date(from: "2019-06-03T19:21:22Z") ?? Date(), status: .attention, productArea: .announcement)
             ]
