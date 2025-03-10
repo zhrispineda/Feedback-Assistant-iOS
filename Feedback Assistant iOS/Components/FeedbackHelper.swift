@@ -3,7 +3,13 @@
 //  Feedback Assistant iOS
 //
 
-import Foundation
+import SwiftUI
+
+// State Manager
+class StateManager: ObservableObject {
+    @Published var destination = AnyView(NoFeedbackView())
+    @Published var id: UUID? = UUID()
+}
 
 class FeedbackHelper {
     func saveFeedbackDraft(_ feedback: FeedbackType) {

@@ -81,7 +81,7 @@ struct FeedbackView: View {
                 .padding(.top, -20)
                 .padding(.horizontal, -5)
                 .scrollDisabled(true)
-                .popover(isPresented: $showingNewFeedbackView) {
+                .sheet(isPresented: $showingNewFeedbackView) {
                     FeedbackDraftView(currentFeedback: $feedbackDraft)
                         .interactiveDismissDisabled()
                 }

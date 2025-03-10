@@ -11,5 +11,6 @@ struct Feedback_Assistant_iOSApp: App {
         WindowGroup {
             ContentView()
         }
+        .environmentObject(StateManager())
     }
 }

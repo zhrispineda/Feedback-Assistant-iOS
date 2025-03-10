@@ -18,7 +18,7 @@ struct NewFeedbackButton: View {
             Image(systemName: "bubble.and.pencil")
                 .imageScale(.large)
         }
-        .popover(isPresented: $showingNewFeedbackView) {
+        .sheet(isPresented: $showingNewFeedbackView) {
             FeedbackDraftView(currentFeedback: $feedbackDraft)
         }
         .popover(isPresented: $showingNewFeedbackButtonPopover, attachmentAnchor: .point(.center), arrowEdge: .bottom) {

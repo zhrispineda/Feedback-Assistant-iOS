@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewsView: View {
     // Variables
+    @EnvironmentObject var stateManager: StateManager
     @State private var searchText = String()
     @State private var feedbacks: [FeedbackType] = []
     @State private var filterEnabled = false
@@ -27,28 +28,18 @@ struct NewsView: View {
     var body: some View {
         List {
             ForEach(filteredFeedbacks) { feedback in
-                NavigationLink {
-                    FeedbackNewsView(html: feedback.description, title: feedback.title)
-                } label: {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            HStack(spacing: 3) {
-                                Image(systemName: "circle.fill")
-                                    .foregroundStyle(feedback.status == .attention ? .accent : .clear)
-                                    .font(.caption2)
-                                Text(feedback.title.isEmpty ? "Untitled Feedback" : feedback.title)
-                                    .font(.headline)
-                                    .lineLimit(1)
-                                Spacer()
-                                Text(feedback.timestampText)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
-                            Text("News – \(feedback.platform)")
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
-                                .padding(.leading, 15)
-                        }
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    NavigationLink {
+                        FeedbackNewsView(html: feedback.description, title: feedback.title)
+                    } label: {
+                        FeedbackNewsLabel(feedback: feedback)
+                    }
+                } else {
+                    Button {
+                        stateManager.id = feedback.id
+                        stateManager.destination = AnyView(FeedbackNewsView(html: feedback.description, title: feedback.title))
+                    } label: {
+                        FeedbackNewsLabel(feedback: feedback)
                     }
                 }
             }
@@ -62,6 +53,9 @@ struct NewsView: View {
                 FeedbackType(platform: "Apple Beta Software Program", title: "Apple Beta Software Program", subtitle: "", description: "3421", timestamp: dateFormatter.date(from: "2019-06-05T01:12:41Z") ?? Date(), status: .attention, productArea: .announcement),
                 FeedbackType(platform: "Developer Seed", title: "Apple Developer Program", subtitle: "", description: "3416", timestamp: dateFormatter.date(from: "2019-06-03T19:21:22Z") ?? Date(), status: .attention, productArea: .announcement)
             ]
+            
+            stateManager.id = UUID()
+            stateManager.destination = AnyView(NoFeedbackView())
         }
         .navigationTitle("ANNOUNCEMENTS_FILTER".localize(table: table))
         .searchable(text: $searchText, placement: .navigationBarDrawer)
@@ -97,5 +91,6 @@ struct NewsView: View {
 #Preview {
     NavigationStack {
         NewsView()
+            .environmentObject(StateManager())
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecentActivityView: View {
     // Variables
+    @EnvironmentObject var stateManager: StateManager
     @State private var searchText = String()
     @State private var filterEnabled = false
     @State private var feedbacks: [FeedbackType] = []
@@ -27,24 +28,20 @@ struct RecentActivityView: View {
     var body: some View {
         List {
             ForEach(filteredFeedbacks) { feedback in
-                NavigationLink {
-                    FeedbackReadDraftView(feedback: feedback)
-                } label: {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text(feedback.title.isEmpty ? "Untitled Feedback" : feedback.title)
-                                    .font(.headline)
-                                Spacer()
-                                Text(feedback.timestampText)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
-                            Text("Feedback Draft – \(feedback.platform)")
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
-                        }
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    NavigationLink {
+                        FeedbackReadDraftView(feedback: feedback)
+                    } label: {
+                        FeedbackLabel(feedback: feedback)
                     }
+                } else {
+                    Button {
+                        stateManager.id = feedback.id
+                        stateManager.destination = AnyView(FeedbackReadDraftView(feedback: feedback))
+                    } label: {
+                        FeedbackLabel(feedback: feedback)
+                    }
+                    .listRowBackground(stateManager.id == feedback.id ? Color("Selected") : nil)
                 }
             }
         }
@@ -53,6 +50,8 @@ struct RecentActivityView: View {
         .searchable(text: $searchText, placement: .navigationBarDrawer)
         .onAppear {
             feedbacks = feedbackHelper.sortedFeedbacks()
+            stateManager.id = UUID()
+            stateManager.destination = AnyView(NoFeedbackView())
         }
         .toolbar {
             ToolbarItem(placement: .bottomBar) {

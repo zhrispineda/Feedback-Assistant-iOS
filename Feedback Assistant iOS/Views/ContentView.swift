@@ -4,12 +4,12 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct ContentView: View {
     // Variables
     @AppStorage("AcceptedLicense") private var acceptedLicense = false
     @Environment(\.scenePhase) var scenePhase
+    @EnvironmentObject var stateManager: StateManager
     @State var blurRadius: CGFloat = 0
     @State private var showingLicenseSheet = false
     @State private var showingSignInSheet = false
@@ -27,11 +27,9 @@ struct ContentView: View {
                         FeedbackView()
                     }
                     .frame(width: UIDevice.current.model == "iPad" ? 360 : nil)
-                    if UIDevice.current.model == "iPad" {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
                         NavigationStack {
-                            Text("NO_FEEDBACK")
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.secondary)
+                            stateManager.destination
                         }
                     }
                 }
@@ -47,6 +45,11 @@ struct ContentView: View {
                     showingSignInCover = true
                 }
             }
+#if DEBUG
+            signedIn = true
+            showingSignInSheet = false
+            showingSignInCover = false
+#endif
         }
         .onChange(of: scenePhase) {
             switch scenePhase {
