@@ -26,7 +26,7 @@ struct ContentView: View {
                     NavigationStack {
                         FeedbackView()
                     }
-                    .frame(width: UIDevice.current.model == "iPad" ? 360 : nil)
+                    .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 360 : nil)
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         NavigationStack {
                             stateManager.destination
@@ -39,17 +39,12 @@ struct ContentView: View {
         .onAppear {
             showingLicenseSheet = !acceptedLicense
             if acceptedLicense {
-                if UIDevice.current.model == "iPad" {
+                if UIDevice.current.userInterfaceIdiom == .pad {
                     showingSignInSheet = true
                 } else {
                     showingSignInCover = true
                 }
             }
-#if DEBUG
-            signedIn = true
-            showingSignInSheet = false
-            showingSignInCover = false
-#endif
         }
         .onChange(of: scenePhase) {
             switch scenePhase {
@@ -65,7 +60,7 @@ struct ContentView: View {
             NavigationStack {
                 LicenseView()
                     .onDisappear {
-                        if UIDevice.current.model == "iPad" {
+                        if UIDevice.current.userInterfaceIdiom == .pad {
                             showingSignInSheet = true
                         } else {
                             showingSignInCover = true
@@ -79,11 +74,14 @@ struct ContentView: View {
                 .interactiveDismissDisabled()
         }
         .fullScreenCover(isPresented: $showingSignInCover) {
-            SignInView(signedIn: $signedIn)
+            ScrollView {
+                SignInView(signedIn: $signedIn)
+            }
         }
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(StateManager())
 }

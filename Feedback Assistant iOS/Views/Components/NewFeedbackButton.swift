@@ -25,7 +25,7 @@ struct NewFeedbackButton: View {
             NavigationStack {
                 NewFeedbackView(showingNewFeedbackInfo: $showingNewFeedbackView)
             }
-            .frame(width: UIDevice.current.model.contains("iPad") ? 350 : nil, height: UIDevice.current.model.contains("iPad") ? 400 : nil)
+            .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 350 : nil, height: UIDevice.current.userInterfaceIdiom == .pad ? 400 : nil)
         }
     }
 }

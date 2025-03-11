@@ -125,7 +125,7 @@ struct OnBoardingDetailView: View {
                         .font(.subheadline)
                         .multilineTextAlignment(.center)
                         .padding(.vertical, 10)
-                    Text(UIDevice.current.model == "iPhone" ? "FOOTER_TEXT_IPHONE" : "FOOTER_TEXT_IPAD", tableName: table)
+                    Text(UIDevice.current.userInterfaceIdiom == .phone ? "FOOTER_TEXT_IPHONE" : "FOOTER_TEXT_IPAD", tableName: table)
                         .font(.subheadline)
                     Text("[\("BUTTON_TITLE".localize(table: "OBAppleID"))](apple.com/privacy)", tableName: "OBAppleID")
                         .padding(.bottom, 10)
@@ -152,7 +152,7 @@ struct OnBoardingDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .background(colorScheme == .light ? .white : Color(UIColor.secondarySystemBackground))
             .scrollContentBackground(.hidden)
-            .contentMargins(.horizontal, UIDevice.current.model == "iPad" ? 90 : 40, for: .scrollContent)
+            .contentMargins(.horizontal, UIDevice.current.userInterfaceIdiom == .pad ? 90 : 40, for: .scrollContent)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("SPLASH_TITLE", tableName: table)

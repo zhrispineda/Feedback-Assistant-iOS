@@ -21,14 +21,14 @@ struct SignInView: View {
             .font(.title)
             .fontWeight(.bold)
         // Email or Phone Number text field
-        TextField(NSLocalizedString("SIGN_IN_USERNAME_PLACEHOLDER", tableName: "AppleAccountUI", comment: String()), text: $username)
+        TextField(NSLocalizedString("SIGN_IN_USERNAME_PLACEHOLDER", tableName: "AppleAccountUI", comment: ""), text: $username)
             .disableAutocorrection(true)
             .autocapitalization(.none)
             .keyboardType(.emailAddress)
             .padding(.vertical)
             .padding(.leading, 15)
             .frame(height: 48)
-            .background(UIDevice.current.model == "iPad" ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
+            .background(UIDevice.current.userInterfaceIdiom == .pad ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
             .cornerRadius(10)
             .padding([.horizontal, .top], 30)
         // Forgot password? button
@@ -37,7 +37,7 @@ struct SignInView: View {
                 .font(.subheadline)
                 .padding(.top, 6)
         }
-        .padding(.bottom, UIDevice.current.model == "iPhone" ? 300 : 150)
+        .padding(.bottom, UIDevice.current.userInterfaceIdiom == .phone ? 300 : 150)
         
         // Privacy link button
         Button {
