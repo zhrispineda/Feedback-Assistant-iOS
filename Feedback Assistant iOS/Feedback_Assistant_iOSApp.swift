@@ -7,10 +7,12 @@ import SwiftUI
 
 @main
 struct Feedback_Assistant_iOSApp: App {
+    @State var stateManager = StateManager()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .environmentObject(StateManager())
+        .environment(StateManager())
     }
 }

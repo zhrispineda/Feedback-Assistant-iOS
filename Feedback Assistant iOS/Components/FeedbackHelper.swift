@@ -6,9 +6,9 @@
 import SwiftUI
 
 // State Manager
-class StateManager: ObservableObject {
-    @Published var destination = AnyView(NoFeedbackView())
-    @Published var id: UUID? = UUID()
+@Observable class StateManager {
+    var destination = AnyView(NoFeedbackView())
+    var id: UUID? = UUID()
 }
 
 class FeedbackHelper {

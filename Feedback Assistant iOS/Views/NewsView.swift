@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewsView: View {
     // Variables
-    @EnvironmentObject var stateManager: StateManager
+    @Environment(StateManager.self) var stateManager: StateManager
     @State private var searchText = String()
     @State private var feedbacks: [FeedbackType] = []
     @State private var filterEnabled = false
@@ -91,6 +91,6 @@ struct NewsView: View {
 #Preview {
     NavigationStack {
         NewsView()
-            .environmentObject(StateManager())
+            .environment(StateManager())
     }
 }

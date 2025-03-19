@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecentActivityView: View {
     // Variables
-    @EnvironmentObject var stateManager: StateManager
+    @Environment(StateManager.self) var stateManager: StateManager
     @State private var searchText = String()
     @State private var filterEnabled = false
     @State private var feedbacks: [FeedbackType] = []

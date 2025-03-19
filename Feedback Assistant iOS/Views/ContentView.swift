@@ -9,7 +9,7 @@ struct ContentView: View {
     // Variables
     @AppStorage("AcceptedLicense") private var acceptedLicense = false
     @Environment(\.scenePhase) var scenePhase
-    @EnvironmentObject var stateManager: StateManager
+    @Environment(StateManager.self) var stateManager: StateManager
     @State var blurRadius: CGFloat = 0
     @State private var showingLicenseSheet = false
     @State private var showingSignInSheet = false
@@ -83,5 +83,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(StateManager())
+        .environment(StateManager())
 }
