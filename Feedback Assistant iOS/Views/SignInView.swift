@@ -10,7 +10,6 @@ struct SignInView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var signedIn: Bool
     @State private var username = String()
-    @State private var showingPrivacySheet = false
     
     var body: some View {
         Image("RoundedIcon") // Rounded Icon
@@ -40,30 +39,9 @@ struct SignInView: View {
         .padding(.bottom, UIDevice.current.userInterfaceIdiom == .phone ? 300 : 150)
         
         // Privacy link button
-        Button {
-            showingPrivacySheet.toggle()
-        } label: {
-            VStack {
-                Image(_internalSystemName: "privacy.handshake")
-                    .resizable()
-                    .foregroundStyle(.accent)
-                    .scaledToFit()
-                    .frame(height: 23)
-                Group {
-                    Text("CREATE_ICLOUD_MAIL_ACCOUNT_EXPLANATION_FOOTER_REBRAND", tableName: "AppleID") + Text(" ") +  Text("CREATE_ICLOUD_MAIL_ACCOUNT_FOOTER_LEARN_MORE_BUTTON", tableName: "AppleID").foregroundStyle(Color.accent)
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .multilineTextAlignment(.center)
-                .font(.caption2)
-                .foregroundStyle(.gray)
-                
-            }
+        OBPrivacyLinkView()
+            .frame(minHeight: 100)
             .padding(.horizontal, 30)
-        }
-        .buttonStyle(.plain)
-        .sheet(isPresented: $showingPrivacySheet) {
-            OnBoardingView(table: "OBAppleID")
-        }
         
         // Continue button
         Button {
@@ -82,6 +60,26 @@ struct SignInView: View {
         .padding(.horizontal, 30)
         .disabled(username.count < 1)
     }
+}
+
+struct OBPrivacyLinkView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        guard let handle = dlopen("/System/Library/PrivateFrameworks/OnBoardingKit.framework/OnBoardingKit", RTLD_LAZY) else {
+            return UIViewController()
+        }
+        defer { dlclose(handle) }
+        
+        guard let controller = NSClassFromString("OBPrivacyLinkController") as? NSObject.Type else {
+            return UIViewController()
+        }
+        
+        let selector = NSSelectorFromString("linkWithBundleIdentifier:")
+        let bundleIdentifiers = "com.apple.onboarding.appleid"
+        let result = (controller.perform(selector, with: bundleIdentifiers)?.takeUnretainedValue() as? UIViewController)!
+        return result
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 #Preview {
