@@ -8,13 +8,13 @@ import SwiftUI
 struct ContentView: View {
     // Variables
     @AppStorage("AcceptedLicense") private var acceptedLicense = false
+    @AppStorage("NeedsSignInPad") private var showingSignInSheet = false
+    @AppStorage("NeedsSignInPhone") private var showingSignInCover = false
+    @AppStorage("SignedIn") private var signedIn = false
     @Environment(\.scenePhase) var scenePhase
     @Environment(StateManager.self) var stateManager: StateManager
     @State var blurRadius: CGFloat = 0
     @State private var showingLicenseSheet = false
-    @State private var showingSignInSheet = false
-    @State private var showingSignInCover = false
-    @State private var signedIn = false
     
     var body: some View {
         ZStack {

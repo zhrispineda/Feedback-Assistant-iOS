@@ -12,6 +12,7 @@ struct FeedbackView: View {
     @State private var showingNewFeedbackPopover = false
     @State private var showingNewFeedbackButtonPopover = false
     @State private var showingNewFeedbackView = false
+    @State private var showingProfileView = false
     @State private var draftsCount = 0
     @State private var feedbackDraft = FeedbackType(platform: "", subtitle: "")
     let feedbackHelper = FeedbackHelper()
@@ -86,12 +87,22 @@ struct FeedbackView: View {
                         .interactiveDismissDisabled()
                 }
             }
+            .background(
+                LargeTitleAccessoryView {
+                    showingProfileView.toggle()
+                }
+            )
             .navigationTitle("FEEDBACK".localize(table: "CommonStrings"))
             .onAppear {
                 draftsCount = feedbackHelper.fetchFeedbackCount()
             }
             .refreshable {
                 refreshData()
+            }
+            .sheet(isPresented: $showingProfileView) {
+                NavigationStack {
+                    SettingsView(showingSettingsSheet: $showingProfileView)
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
@@ -182,6 +193,54 @@ struct CustomButtonStyle: ButtonStyle {
             .background(configuration.isPressed ? Color.purple : Color(colorScheme == .light ? Color.white : Color(UIColor.systemGray6)))
             .cornerRadius(8)
     }
+}
+
+class ProfileButton: UIButton {
+    var onTap: (() -> Void)?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        let config = UIImage.SymbolConfiguration(pointSize: 44, weight: .regular)
+        let image = UIImage(systemName: "person.crop.circle", withConfiguration: config)?
+            .withRenderingMode(.alwaysOriginal)
+        setImage(image, for: .normal)
+        addTarget(self, action: #selector(didTap), for: .touchUpInside)
+    }
+
+    @objc private func didTap() {
+        onTap?()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+struct LargeTitleAccessoryView: UIViewControllerRepresentable {
+    var onTap: () -> Void
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        let controller = UIViewController()
+
+        Task {
+            if let navController = controller.navigationController,
+               let navItem = navController.navigationBar.topItem {
+
+                let container = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+                let button = ProfileButton(type: .system)
+                button.frame = container.bounds
+                button.frame.origin.y += 12
+                button.onTap = onTap
+                container.addSubview(button)
+
+                navItem.perform(Selector(("_setLargeTitleAccessoryView:")), with: container)
+            }
+        }
+
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 #Preview {

@@ -40,7 +40,7 @@ struct SignInView: View {
         
         // Privacy link button
         OBPrivacyLinkView()
-            .frame(minHeight: 100)
+            .frame(height: 100)
             .padding(.horizontal, 30)
         
         // Continue button
