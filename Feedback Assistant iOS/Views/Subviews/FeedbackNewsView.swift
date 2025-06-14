@@ -11,32 +11,14 @@ struct FeedbackNewsView: View {
     let title: String
     
     var body: some View {
-        WebView(file: html)
-            .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct WebView: UIViewRepresentable {
-    let file: String
-    
-    func makeUIView(context: Context) -> WKWebView {
-        let webView = WKWebView()
-        webView.isOpaque = false
-        webView.backgroundColor = .clear
-        
-        if let htmlPath = Bundle.main.path(forResource: file, ofType: "html") {
+        if let htmlPath = Bundle.main.path(forResource: html, ofType: "html") {
             let url = URL(fileURLWithPath: htmlPath)
-            let request = URLRequest(url: url)
-            webView.load(request)
-        } else {
-            print("[WebView] \(file) was not found.")
+            WebView(url: url)
+                .navigationTitle(title)
+                .navigationBarTitleDisplayMode(.inline)
         }
-        
-        return webView
+
     }
-    
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
 }
 
 #Preview {
