@@ -6,7 +6,6 @@
 import SwiftUI
 
 struct FeedbackView: View {
-    // Variables
     @Environment(\.colorScheme) var colorScheme
     @State private var refreshing = false
     @State private var showingNewFeedbackPopover = false
@@ -78,7 +77,7 @@ struct FeedbackView: View {
                         .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 350 : nil, height: UIDevice.current.userInterfaceIdiom == .pad ? 400 : nil)
                     }
                 }
-                .frame(height: 220)
+                .frame(height: 300)
                 .padding(.top, -20)
                 .padding(.horizontal, -5)
                 .scrollDisabled(true)
@@ -87,11 +86,6 @@ struct FeedbackView: View {
                         .interactiveDismissDisabled()
                 }
             }
-            .background(
-                LargeTitleAccessoryView {
-                    showingProfileView.toggle()
-                }
-            )
             .navigationTitle("FEEDBACK".localize(table: "CommonStrings"))
             .onAppear {
                 draftsCount = feedbackHelper.fetchFeedbackCount()
@@ -106,27 +100,32 @@ struct FeedbackView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
-                    ZStack {
-                        HStack {
-                            Spacer()
-                            Button {
-                                showingNewFeedbackButtonPopover.toggle()
-                            } label: {
-                                Image(systemName: "bubble.and.pencil")
-                            }
-                            .popover(isPresented: $showingNewFeedbackButtonPopover, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
-                                NavigationStack {
-                                    NewFeedbackView(showingNewFeedbackInfo: $showingNewFeedbackView)
-                                }
-                                .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 350 : nil, height: UIDevice.current.userInterfaceIdiom == .pad ? 400 : nil)
-                            }
+                    Button {
+                        showingNewFeedbackButtonPopover.toggle()
+                    } label: {
+                        Image(systemName: "person.fill")
+                    }
+                    .popover(isPresented: $showingNewFeedbackButtonPopover, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
+                        NavigationStack {
+                            NewFeedbackView(showingNewFeedbackInfo: $showingNewFeedbackView)
                         }
-                        if refreshing {
-                            HStack {
-                                ProgressView()
-                                Text("LOADING_ELLIPSES")
-                            }
+                        .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 350 : nil, height: UIDevice.current.userInterfaceIdiom == .pad ? 400 : nil)
+                    }
+                }
+                
+                ToolbarSpacer(.flexible, placement: .bottomBar)
+                
+                ToolbarItem(placement: .bottomBar) {
+                    Button {
+                        showingNewFeedbackButtonPopover.toggle()
+                    } label: {
+                        Image(systemName: "bubble.and.pencil")
+                    }
+                    .popover(isPresented: $showingNewFeedbackButtonPopover, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
+                        NavigationStack {
+                            NewFeedbackView(showingNewFeedbackInfo: $showingNewFeedbackView)
                         }
+                        .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 350 : nil, height: UIDevice.current.userInterfaceIdiom == .pad ? 400 : nil)
                     }
                 }
             }
@@ -193,54 +192,6 @@ struct CustomButtonStyle: ButtonStyle {
             .background(configuration.isPressed ? Color.purple : Color(colorScheme == .light ? Color.white : Color(UIColor.systemGray6)))
             .cornerRadius(8)
     }
-}
-
-class ProfileButton: UIButton {
-    var onTap: (() -> Void)?
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        let config = UIImage.SymbolConfiguration(pointSize: 44, weight: .regular)
-        let image = UIImage(systemName: "person.crop.circle", withConfiguration: config)?
-            .withRenderingMode(.alwaysOriginal)
-        setImage(image, for: .normal)
-        addTarget(self, action: #selector(didTap), for: .touchUpInside)
-    }
-
-    @objc private func didTap() {
-        onTap?()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-struct LargeTitleAccessoryView: UIViewControllerRepresentable {
-    var onTap: () -> Void
-
-    func makeUIViewController(context: Context) -> UIViewController {
-        let controller = UIViewController()
-
-        Task {
-            if let navController = controller.navigationController,
-               let navItem = navController.navigationBar.topItem {
-
-                let container = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-                let button = ProfileButton(type: .system)
-                button.frame = container.bounds
-                button.frame.origin.y += 12
-                button.onTap = onTap
-                container.addSubview(button)
-
-                navItem.perform(Selector(("_setLargeTitleAccessoryView:")), with: container)
-            }
-        }
-
-        return controller
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 #Preview {

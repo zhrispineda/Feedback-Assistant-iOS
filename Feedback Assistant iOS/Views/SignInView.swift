@@ -6,7 +6,6 @@
 import SwiftUI
 
 struct SignInView: View {
-    // Variables
     @Environment(\.dismiss) private var dismiss
     @Binding var signedIn: Bool
     @State private var username = String()
@@ -28,7 +27,7 @@ struct SignInView: View {
             .padding(.leading, 15)
             .frame(height: 48)
             .background(UIDevice.current.userInterfaceIdiom == .pad ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
-            .cornerRadius(10)
+            .cornerRadius(30)
             .padding([.horizontal, .top], 30)
         // Forgot password? button
         Button {} label: {
@@ -40,7 +39,7 @@ struct SignInView: View {
         
         // Privacy link button
         OBPrivacyLinkView()
-            .frame(height: 100)
+            .frame(height: 110)
             .padding(.horizontal, 30)
         
         // Continue button
@@ -52,13 +51,12 @@ struct SignInView: View {
                 .fontWeight(.semibold)
                 .font(.subheadline)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(username.count < 1 ? Color(UIColor.systemGray5) : Color.accent)
-                .foregroundStyle(username.count < 1 ? Color(UIColor.systemGray) : Color.white)
                 .cornerRadius(15)
         }
         .frame(height: 50)
         .padding(.horizontal, 30)
         .disabled(username.count < 1)
+        .buttonStyle(.glassProminent)
     }
 }
 

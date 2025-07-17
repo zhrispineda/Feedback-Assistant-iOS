@@ -23,4 +23,5 @@ struct FeedbackNewsView: View {
 
 #Preview {
     FeedbackNewsView(html: "3416", title: "News")
+        .environment(StateManager())
 }

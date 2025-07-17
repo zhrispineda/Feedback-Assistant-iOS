@@ -6,7 +6,6 @@
 import SwiftUI
 
 struct LicenseView: View {
-    // Variables
     @AppStorage("AcceptedLicense") private var acceptedLicense = false
     @Environment(\.dismiss) private var dismiss
     @State private var showingLicenseAlert = false
@@ -30,15 +29,17 @@ struct LicenseView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
-                HStack {
-                    Button("DECLINE") {
-                        showingLicenseAlert.toggle()
-                    }
-                    Spacer()
-                    Button("ACCEPT") {
-                        dismiss()
-                        acceptedLicense = true
-                    }
+                Button("DECLINE") {
+                    showingLicenseAlert.toggle()
+                }
+            }
+            
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+            
+            ToolbarItem(placement: .bottomBar) {
+                Button("ACCEPT") {
+                    dismiss()
+                    acceptedLicense = true
                 }
             }
         }
